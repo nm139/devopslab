@@ -104,3 +104,38 @@ pipeline {
 save
 build now
 ------------------------------------------------------------------------------------------------------------------------------
+exp-7
+sudo apt install ansible -y
+
+gedit hosts.ini
+hosts.ini
+[local]
+localhost ansible_connection=local
+
+gedit setup.yml
+setup.yml
+---
+- name: Basic Server Setup
+  hosts: local
+  become: yes # Use privilege escalation (sudo)
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install curl
+      apt:
+        name: curl
+        state: present
+
+sudo ansible-playbook -i hosts.ini setup.yml
+---------------------------------------------------------------------------------------------------------------------------
+exp-8
+new item-->HelloMaven-CI-->freestyle project
+git-->https://github.com/devops-ds/your-maven-project.git-->*/main
+add build step-->execute shell-->/usr/bin/mvn clean package
+add build step-->execute shell-->ansible-playbook -i hosts.ini deploy.yml
+post build actions-->add post build actions-->archive the artifacts-->target/*.jar
+save
+build now
+ls -l /var/lib/jenkins/deployment/
