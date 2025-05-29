@@ -1,3 +1,4 @@
+exp-1
 sudo apt install openjdk-17-jdk -y
 
 sudo apt install maven -y 
@@ -6,15 +7,100 @@ wget https://services.gradle.org/distributions/gradle-8.14-bin.zip -P /tmp
 
 sudo unzip -d /opt/gradle /tmp/gradle-8.14-bin.zip
 -----------------------------------------------------------------------------------------------------------------------------
+exp-2
 sudo snap install tree
 
 mvn clean install
 
 java -cp target/classes com.example.App
 ------------------------------------------------------------------------------------------------------------------------------
+exp-3
 gradle build
 gradle run
 gradle hello
 -----------------------------------------------------------------------------------------------------------------------------
+exp-4
 gradle build
 gradle run
+------------------------------------------------------------------------------------------------------------------------------
+exp-5
+sudo wget -O /etc/apt/keyrings/jenkins-keyring.asc \ https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+
+echo "deb [signed-by=/etc/apt/keyrings/jenkins-keyring.asc]" \
+  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+  /etc/apt/sources.list.d/jenkins.list > /dev/null
+
+sudo apt update
+sudo apt install jenkins -y
+
+sudo systemctl start jenkins
+sudo systemctl enable jenkins
+sudo systemctl status jenkins
+
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+--------------------------------------------------------------------------------------------------------------------------------
+exp-6
+MAVEN
+1)FREESTYLE JOB
+https://github.com/devops-ds/your-maven-project.git
+source code management:- Git
+repository url:- https://github.com/devops-ds/your-maven-project.git
+branches to build:- */main
+build-->add build step-->execute shell-->/usr/bin/mvn clean install
+post-build-actions-->add-->Publish JUnit test result report-->**/target/surefire-reports/*.xml
+SAVE
+BUILD NOW
+
+2)PIPELINE
+ new item-->Maven-GitHub-Pipeline-->pipeline-->ok
+pipeline-->definition-->pipeline script-->
+
+pipeline script:
+pipeline {
+    agent any // Or specify a specific agent label
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout code from your GitHub repository
+                git url: 'https://github.com/devops-ds/your-maven-project.git', branch: 'main' // Replace with your repo URL if different, adjust branch name if needed
+                // If your repository is private, you'll need to add credentials here, e.g.:
+                // git url: 'https://github.com/devops-ds/your-maven-project.git', branch: 'main', credentialsId: 'your-credential-id'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                // Execute Maven build using the 'mvn' command with the full path
+                // To find the full path to your 'mvn' executable on Linux/macOS, open your terminal and run:
+                // which mvn
+                sh '/usr/bin/mvn clean package' // Replace with actual path
+            }
+        }
+
+        stage('Test') {
+            steps {
+                // Optionally, separate test execution if needed
+                // This step is often not strictly necessary if 'mvn clean package' already runs tests
+                // sh '/path/to/your/maven/bin/mvn test' // Replace with actual path
+                echo 'Tests are typically run during the Build stage with Maven.'
+            }
+        }
+    }
+    post {
+        always {
+            // Archive test reports
+            junit '**/target/surefire-reports/*.xml'
+        }
+        success {
+            echo 'Build and tests succeeded!'
+        }
+        failure {
+            echo 'Build or tests failed.'
+        }
+        // Add other post conditions like 'unstable', 'changed' as needed
+    }
+}
+save
+build now
+------------------------------------------------------------------------------------------------------------------------------
