@@ -14,4 +14,4 @@ Directly fork the repository
 
 
 
-blogspot: devopslab1.blogspot.com
+blogspot: https://devopslab1.blogspot.com
