@@ -11,3 +11,7 @@ cd devopslab
  OR
 
 Directly fork the repository
+
+
+
+blogspot: devopslab1.blogspot.com
