@@ -8,6 +8,10 @@ git clone https://github.com/nm139/devopslab.git
 
 cd devopslab
 
+cd 'experiment 4' //or the required experiment
+
+execute the commands
+
  OR
 
 Directly fork the repository
