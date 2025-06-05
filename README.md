@@ -10,6 +10,8 @@ cd devopslab
 
 cd 'experiment 4' //or the required experiment
 
+cd to the required project
+
 execute the commands
 
  OR
