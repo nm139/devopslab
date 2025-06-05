@@ -6,6 +6,7 @@ sudo rm -rf /usr/bin/gradle
 sudo rm -rf /etc/profile.d/gradle.sh
 
 sudo apt install openjdk-17-jdk -y
+sudo update-alternatives --config java //to set java 17 as default if not already
 
 sudo apt install maven -y 
 
