@@ -1,4 +1,10 @@
 exp-1
+//to uninstall existing maven and gradle(use only if it is a version other than maven 3.8.7 or gradle 8.14)
+sudo apt remove --purge maven -y
+sudo rm -rf /opt/gradle
+sudo rm -rf /usr/bin/gradle
+sudo rm -rf /etc/profile.d/gradle.sh
+
 sudo apt install openjdk-17-jdk -y
 
 sudo apt install maven -y 
@@ -24,6 +30,16 @@ gradle build
 gradle run
 ------------------------------------------------------------------------------------------------------------------------------
 exp-5
+to uninstall jenkins(do only if it is not working or password not available)
+sudo systemctl stop jenkins
+sudo apt-get remove --purge jenkins
+sudo rm -rf /var/lib/jenkins
+sudo rm -rf /etc/jenkins
+sudo rm -rf /var/log/jenkins
+sudo deluser jenkins
+sudo rm /etc/apt/sources.list.d/jenkins.list
+sudo apt-get update
+
 sudo wget -O /etc/apt/keyrings/jenkins-keyring.asc \ https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
 
 echo "deb [signed-by=/etc/apt/keyrings/jenkins-keyring.asc]" \
